@@ -1,0 +1,34 @@
+# ---- 操作系统 ----
+.DS_Store
+Thumbs.db
+
+# ---- 后端（Maven / IDEA）----
+backend/target/
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# ---- 前端 ----
+web/node_modules/
+web/dist/
+web/dist-admin/
+web/.vite/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- 本地配置 / 日志 ----
+*.log
+logs/
+application-local.yml
+.env
+.env.local
+
+# ---- 编辑器 / 临时文件 ----
+*.swp
+*~

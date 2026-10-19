@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.volunteer.modules.statistics.mapper.StatisticsMapper">
+
+    <select id="selectHoursRanking" resultType="com.volunteer.modules.statistics.dto.HoursStatVO">
+        SELECT u.id                                        AS userId,
+               u.username                                  AS username,
+               u.real_name                                 AS realName,
+               u.phone                                     AS phone,
+               COUNT(DISTINCT c.activity_id)               AS activityCount,
+               COALESCE(SUM(c.duration), 0)                AS totalMinutes,
+               MAX(c.check_out_time)                       AS lastServiceTime
+        FROM sys_user u
+        LEFT JOIN check_in_record c ON c.user_id = u.id AND c.duration IS NOT NULL
+        WHERE u.role = 1
+        <if test="keyword != null and keyword != ''">
+            AND (u.real_name LIKE CONCAT('%', #{keyword}, '%')
+                 OR u.username LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        GROUP BY u.id, u.username, u.real_name, u.phone
+        ORDER BY totalMinutes DESC, u.id ASC
+    </select>
+</mapper>
